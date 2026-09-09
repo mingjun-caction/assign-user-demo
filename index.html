@@ -88,12 +88,20 @@ body{
 }
 .av.lg{width:30px; height:30px; font-size:12px}
 
+.btn-assign{
+  display:inline-flex; align-items:center; gap:6px; margin-top:8px;
+  border:1.5px dotted var(--caction-blue-normal); border-radius:999px;
+  background:#fff; color:var(--caction-blue-normal); padding:4px 12px 4px 9px;
+  font:500 12.5px Inter,sans-serif; cursor:pointer;
+}
+.btn-assign:hover{background:var(--caction-blue-light)}
+.btn-assign .mi{font-size:18px}
+
 .combo{
   display:flex; align-items:center; gap:8px; width:100%; margin-top:8px;
   border:1px solid var(--line); border-radius:7px; background:#fff; padding:7px 10px;
-  font:400 12.5px Inter,sans-serif; color:var(--muted); cursor:pointer; text-align:left;
+  font:400 12.5px Inter,sans-serif; color:var(--muted);
 }
-.combo:hover{border-color:var(--caction-blue-sky)}
 .combo .mi{font-size:16px; color:var(--caction-blue-steel)}
 .combo.open{border-color:var(--caction-blue-normal); box-shadow:0 0 0 3px rgba(49,84,126,.12)}
 .combo input{flex:1; border:0; outline:0; font:400 12.5px Inter,sans-serif; color:var(--caction-black); background:none; min-width:0; padding:0}
@@ -346,7 +354,7 @@ function render() {
 
   const combo = state.open
     ? `<div class="combo open"><span class="mi">search</span><input id="q" placeholder="Assign User" value="${esc(state.q)}" autocomplete="off"></div>`
-    : `<button class="combo" type="button" id="openBtn"><span class="mi">group_add</span>Assign User<span class="mi" style="margin-left:auto">expand_more</span></button>`;
+    : `<button class="btn-assign" type="button" id="openBtn"><span class="mi">group_add</span>Assign User</button>`;
 
   $('#assign').innerHTML = chip + combo + dd;
 
