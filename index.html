@@ -91,13 +91,10 @@ body{
 .assign{position:relative}
 .chip{
   display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--line);
-  border-radius:999px; padding:3px 10px 3px 3px; font-size:12.5px; color:var(--caction-black); max-width:100%;
+  border-radius:999px; padding:3px 12px 3px 3px; font-size:12.5px; color:var(--caction-black); max-width:100%;
 }
 .chip .nm{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-.chip .x{border:0; background:none; padding:0; cursor:pointer; color:var(--muted); font-size:15px; display:flex}
-.chip .x:hover{color:var(--caction-red)}
 .chip.clash{border-color:#EDC79C; background:var(--caction-orange-light)}
-.chip.clash .x{color:var(--caction-orange)}
 .chip-warn{display:flex; align-items:center; gap:5px; margin-top:6px; font-size:11.5px; color:var(--caction-orange)}
 .chip-warn .mi{font-size:14px}
 .av{
@@ -342,7 +339,7 @@ function optionHTML(p, idx, isDept) {
       <span style="min-width:0">
         <span class="nm">${esc(p.name)}</span>
         ${clash
-          ? `<div class="why">${esc(clash.code)} ${esc(clash.title)} · ${fmt(clash.s)}–${fmt(clash.e)}</div>`
+          ? `<div class="why">Assigned to ${esc(clash.code)}</div>`
           : `<div class="sub">${sub}</div>`}
       </span>
       <span class="st">${st}</span>
@@ -354,16 +351,13 @@ function render() {
   const person = PEOPLE.find(p => p.id === state.assigned) || DEPTS.find(d => d.id === state.assigned);
   const clash = person && !person.members ? clashOf(person) : null;
 
-  $('#assignLabel').textContent = `Assigned to [${person ? 1 : 0}]`;
-
-  const chip = person ? `
+  const chip = `
     <span class="chip${clash ? ' clash' : ''}">
       <span class="av" style="background:${person.color}">${initials(person.name)}</span>
       <span class="nm">${esc(person.name)}</span>
-      <button class="x" type="button" id="unassign" aria-label="Remove ${esc(person.name)}"><span class="mi">close</span></button>
     </span>
-    ${clash ? `<div class="chip-warn"><span class="mi">warning_amber</span>Now clashes with ${esc(clash.code)} · ${fmt(clash.s)}–${fmt(clash.e)}</div>` : ''}
-  ` : `<span style="color:#A8B0B9; font-size:12.5px">No user assigned</span>`;
+    ${clash ? `<div class="chip-warn"><span class="mi">warning_amber</span>Now clashes with ${esc(clash.code)}</div>` : ''}
+  `;
 
   let dd = '';
   if (state.open) {
@@ -427,7 +421,6 @@ function pick(id) {
 
 $('#assign').addEventListener('click', (ev) => {
   if (ev.target.closest('#openBtn')) { state.open = true; state.hi = -1; render(); return; }
-  if (ev.target.closest('#unassign')) { state.assigned = null; render(); toast('User removed'); return; }
   if (ev.target.closest('#adv')) { toast('Opens the existing user-list popup — departments, viewers, permissions'); return; }
   const opt = ev.target.closest('.opt');
   if (opt) {
