@@ -109,15 +109,15 @@ body{
 .grp .n{margin-left:auto; letter-spacing:0; text-transform:none; font-weight:400}
 .opt{display:flex; align-items:center; gap:10px; width:100%; padding:8px 11px; border:0; background:#fff; cursor:pointer; text-align:left; font:inherit}
 .opt:hover, .opt.hi{background:var(--caction-blue-light)}
-.opt .nm{font-size:13px; font-weight:500; color:var(--caction-black)}
+.opt.sel{background:#DCEBF7; box-shadow:inset 3px 0 0 var(--caction-blue-normal)}
+.opt.sel .nm{color:var(--caction-blue)}
+.opt .nm{font-size:13px; font-weight:500; color:var(--caction-black); display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .opt .sub{font-size:11.5px; color:var(--muted); margin-top:1px; display:flex; align-items:center; gap:6px}
 .opt .ext{border:1px solid var(--caction-gray); background:var(--caction-gray-lightest); border-radius:4px; font-size:10px; padding:1px 5px; color:#5C6672}
-.opt .st{margin-left:auto; flex:0 0 auto}
+.opt .st{margin-left:auto; flex:0 0 auto; white-space:nowrap}
 .badge{display:inline-block; font-size:10.5px; font-weight:600; border-radius:5px; padding:3px 7px; border:1px solid}
-.badge.free{color:var(--caction-green); background:var(--caction-green-light); border-color:#BEE3BE}
 .badge.clash{color:var(--caction-orange); background:var(--caction-orange-light); border-color:#F4CDBC}
 .badge.grp{color:var(--caction-blue-normal); background:var(--caction-blue-light); border-color:#C5DCEC}
-.badge.current{color:var(--caction-blue-normal); background:var(--caction-blue-light); border-color:#C5DCEC}
 .opt.off{background:var(--caction-gray-lightest); cursor:not-allowed}
 .opt.off:hover{background:#EDEFF2}
 .opt.off .nm{color:#939CA6; font-weight:400}
@@ -295,12 +295,10 @@ function optionHTML(p, idx, isDept) {
     : `${esc(p.role)}${p.external ? ' <span class="ext">External</span>' : ''}`;
   const st = isDept
     ? '<span class="badge grp">Group</span>'
-    : clash ? '<span class="badge clash">Clash</span>'
-            : picked ? '<span class="badge current">Assigned</span>'
-                     : '<span class="badge free">Free</span>';
+    : clash ? '<span class="badge clash">Unavailable</span>' : '';
   return `
     <button type="button" role="option" aria-selected="${picked}" aria-disabled="${!!clash}"
-      class="opt${clash ? ' off' : ''}${state.hi === idx ? ' hi' : ''}"
+      class="opt${clash ? ' off' : ''}${picked ? ' sel' : ''}${state.hi === idx ? ' hi' : ''}"
       data-idx="${idx}" data-id="${p.id}"${clash ? ` data-clash="${esc(JSON.stringify(clash))}"` : ''}>
       <span class="av" style="background:${p.color}">${initials(p.name)}</span>
       <span style="min-width:0">
@@ -323,7 +321,7 @@ function render() {
       <span class="av" style="background:${person.color}">${initials(person.name)}</span>
       <span class="nm">${esc(person.name)}</span>
     </span>
-    ${clash ? `<div class="chip-warn"><span class="mi">warning_amber</span>Now clashes with ${esc(clash.code)}</div>` : ''}
+    ${clash ? `<div class="chip-warn"><span class="mi">warning_amber</span>Unavailable — assigned to ${esc(clash.code)}</div>` : ''}
   `;
 
   let dd = '';
@@ -336,7 +334,7 @@ function render() {
       list = `<div class="dd-empty">No user or department matches “${esc(state.q)}”.</div>`;
     } else {
       if (people.length) {
-        list += `<div class="grp">Users<span class="n">${free} free${busy ? ` · ${busy} clash` : ''}</span></div>`;
+        list += `<div class="grp">Users<span class="n">${free} available${busy ? ` · ${busy} unavailable` : ''}</span></div>`;
         list += people.map((p, i) => optionHTML(p, i, false)).join('');
       }
       if (depts.length) {
@@ -459,7 +457,7 @@ document.addEventListener('click', (ev) => {
   }
   render();
   const person = PEOPLE.find(p => p.id === state.assigned);
-  if (person && clashOf(person)) toast(`${person.name} now clashes with another job`);
+  if (person && clashOf(person)) toast(`${person.name} is no longer available for this time`);
   else toast('Availability rechecked for the new time');
 }));
 
