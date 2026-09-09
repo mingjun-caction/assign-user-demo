@@ -490,7 +490,8 @@ $('#assign').addEventListener('mouseout', (ev) => {
 });
 
 document.addEventListener('click', (ev) => {
-  if (state.open && !ev.target.closest('#assign')) { state.open = false; state.q = ''; render(); }
+  // the re-render detaches the clicked node, so an outside click must also still be in the DOM
+  if (state.open && ev.target.isConnected && !ev.target.closest('#assign')) { state.open = false; state.q = ''; render(); }
 });
 
 [startEl, endEl].forEach(el => el.addEventListener('change', () => {
