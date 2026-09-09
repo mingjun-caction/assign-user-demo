@@ -1,8 +1,8 @@
-# Megalift — Assign User dropdown (prototype)
+# Assign User dropdown (prototype)
 
 Interactive prototype for the redesigned **Assign User** control on the job sidebar.
 
-**Live demo:** https://mingjun-caction.github.io/megalift-assign-user-demo/
+**Live demo:** https://mingjun-caction.github.io/assign-user-demo/
 
 ## What it shows
 
