@@ -104,7 +104,7 @@ body{
   background:#fff; border:1px solid var(--line); border-radius:9px; overflow:hidden;
   box-shadow:0 10px 34px -12px rgba(36,61,92,.4), 0 2px 6px rgba(36,61,92,.08);
 }
-.dd-ctx{display:flex; align-items:center; gap:6px; padding:8px 11px; background:var(--caction-blue-light); font-size:11.5px; color:var(--caction-blue-normal)}
+.dd-ctx{display:flex; align-items:center; gap:6px; padding:7px 11px; background:var(--caction-blue-light); font-size:11.5px; color:var(--caction-blue-normal); white-space:nowrap}
 .dd-ctx .mi{font-size:14px}
 .dd-ctx .n{margin-left:auto; font-weight:600}
 .dd-scroll{max-height:274px; overflow-y:auto}
@@ -127,7 +127,7 @@ body{
 .opt.off .av{opacity:.45}
 .opt.off .why{font-size:11px; color:var(--caction-orange); margin-top:2px; font-variant-numeric:tabular-nums}
 .dd-empty{padding:20px 11px; text-align:center; font-size:12.5px; color:var(--muted)}
-.dd-ft{display:flex; align-items:center; gap:8px; padding:9px 11px; border-top:1px solid var(--line-soft); background:var(--caction-gray-lightest); font-size:11.5px; color:var(--muted)}
+.dd-ft{display:flex; align-items:center; gap:8px; padding:8px 11px; border-top:1px solid var(--line-soft); background:var(--caction-gray-lightest); font-size:11.5px; color:var(--muted); white-space:nowrap}
 .dd-ft .adv{margin-left:auto; border:0; background:none; font:500 12px Inter,sans-serif; color:var(--caction-blue-normal); cursor:pointer; padding:0}
 .dd-ft .adv:hover{text-decoration:underline}
 
@@ -266,7 +266,11 @@ const fmt = (m) => {
   const h = h24 % 12 === 0 ? 12 : h24 % 12;
   return `${String(h).padStart(2,'0')}:${mm} ${ap}`;
 };
-const initials = (n) => n.split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
+const fmtRange = (a, b) => {
+  const A = fmt(a), B = fmt(b);
+  return A.slice(-2) === B.slice(-2) ? `${A.slice(0,5)}–${B}` : `${A}–${B}`;
+};
+const initials = (n) > n.split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
 const clashOf = (p) => {
   const w = win();
   return (p.jobs || []).find(j => j.s < w.e && j.e > w.s) || null;
@@ -349,9 +353,9 @@ function render() {
     }
     dd = `
       <div class="dd" id="dd" role="listbox" aria-label="Assign user">
-        <div class="dd-ctx"><span class="mi">schedule</span>Availability for Wed 02 Sep · ${fmt(w.s)}–${fmt(w.e)}<span class="n">${people.length} shown</span></div>
+        <div class="dd-ctx"><span class="mi">schedule</span>Wed 02 Sep · ${fmtRange(w.s, w.e)}</div>
         <div class="dd-scroll">${list}</div>
-        <div class="dd-ft">One user per job — picking replaces the current one
+        <div class="dd-ft">One user per job
           <button class="adv" type="button" id="adv">Advanced…</button>
         </div>
       </div>`;
