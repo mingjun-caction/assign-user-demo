@@ -29,23 +29,8 @@ body{
 .mi{font-family:"Material Icons Outlined"; font-style:normal; font-weight:400; line-height:1; letter-spacing:normal; text-transform:none; display:inline-block; white-space:nowrap; direction:ltr; -webkit-font-feature-settings:'liga'; -webkit-font-smoothing:antialiased}
 
 /* ---------- page shell ---------- */
-.page{max-width:1080px; margin:0 auto; padding:26px 20px 70px; display:grid; grid-template-columns:minmax(0,1fr) 396px; gap:34px; align-items:start}
-@media (max-width:900px){ .page{grid-template-columns:1fr} }
+.page{max-width:420px; margin:0 auto; padding:30px 20px 60px}
 
-.brief h1{font-size:24px; font-weight:700; letter-spacing:-.01em; margin:0 0 6px}
-.brief .eyebrow{font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--caction-blue-steel)}
-.brief p{color:#5C6672; margin:0 0 16px; max-width:56ch}
-.try{background:#fff; border:1px solid var(--line); border-radius:8px; padding:16px 18px}
-.try h2{font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--caction-blue-steel); margin:0 0 12px}
-.try ol{margin:0; padding-left:20px; display:grid; gap:9px; font-size:13.5px; color:#4A5460}
-.try b{color:var(--caction-black)}
-.try .foot{margin-top:16px; padding-top:14px; border-top:1px solid var(--line-soft); display:flex; align-items:center; gap:10px}
-.reset{
-  font:500 13px Inter,sans-serif; background:#fff; color:var(--caction-blue-normal);
-  border:1px solid var(--caction-blue-sky); border-radius:6px; padding:7px 13px; cursor:pointer;
-}
-.reset:hover{background:var(--caction-blue-light)}
-.note{font-size:12px; color:var(--muted)}
 
 /* ---------- sidebar ---------- */
 .sb{background:#fff; border:1px solid var(--line); border-radius:10px; overflow:visible; box-shadow:0 1px 2px rgba(36,61,92,.05), 0 12px 30px -18px rgba(36,61,92,.35)}
@@ -162,32 +147,14 @@ body{
 .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
 @media (prefers-reduced-motion:reduce){ .toast{transition:none} }
 :focus-visible{outline:2px solid var(--caction-blue-normal); outline-offset:1px}
-footer{grid-column:1/-1; margin-top:10px; font-size:11.5px; color:var(--muted)}
+footer{display:flex; align-items:center; gap:12px; margin-top:18px; font-size:11.5px; color:var(--muted)}
+.reset{font:500 12px Inter,sans-serif; background:#fff; color:var(--caction-blue-normal); border:1px solid var(--caction-blue-sky); border-radius:6px; padding:5px 11px; cursor:pointer; flex:0 0 auto}
+.reset:hover{background:var(--caction-blue-light)}
 </style>
 </head>
 <body>
 
 <div class="page">
-
-  <div class="brief">
-    <div class="eyebrow">Job sidebar · prototype</div>
-    <h1>Assign User — inline dropdown</h1>
-    <p>The full-screen user-list popup is gone. Assigning a driver is now one field on the job: search, see who is actually free for this job's time window, pick. Conflicts show up while you choose, not in a second popup afterwards.</p>
-    <div class="try">
-      <h2>Try this</h2>
-      <ol>
-        <li>Click <b>Search driver or department</b> on the Assigned to row.</li>
-        <li>Drivers already booked over 5:00–6:00 PM are <b>greyed out</b> — hover one to see which job is blocking.</li>
-        <li>Type a name (try <b>“ah”</b>) to filter. Unavailable people stay in the list so you know they exist.</li>
-        <li>Pick anyone marked <b>Free</b>. It replaces the current assignee — one driver per job.</li>
-        <li>Change the <b>End date time</b> to 07:00 PM. Availability re-checks, and if your assignee now clashes the chip turns orange.</li>
-      </ol>
-      <div class="foot">
-        <button class="reset" id="reset" type="button">Reset demo</button>
-        <span class="note">Sample data — names and job codes are illustrative.</span>
-      </div>
-    </div>
-  </div>
 
   <div class="sb">
     <div class="sb-hd">
@@ -256,7 +223,10 @@ footer{grid-column:1/-1; margin-top:10px; font-size:11.5px; color:var(--muted)}
     </div>
   </div>
 
-  <footer>Prototype for client review — behaviour and layout only, not final visual design.</footer>
+  <footer>
+    <button class="reset" id="reset" type="button">Reset demo</button>
+    <span>Prototype — sample data. Behaviour and layout only, not final visual design.</span>
+  </footer>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
