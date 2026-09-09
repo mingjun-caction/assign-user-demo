@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assign User — Interactive Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --caction-red:#E0386A; --caction-red-light:#FDECEE;
+  --caction-green:#287932; --caction-green-light:#E9FFE9;
+  --caction-yellow:#8C7100; --caction-yellow-light:#FEF7CE;
+  --caction-orange:#E64500; --caction-orange-light:#FFEEE9;
+  --caction-gray:#D9D9D9; --caction-gray-light:#EAEBEB; --caction-gray-lightest:#F8F9FA;
+  --caction-black:#333333;
+  --caction-blue:#243D5C; --caction-blue-normal:#31547E;
+  --caction-blue-steel:#566C80; --caction-blue-sky:#90ACBE; --caction-blue-light:#ECF7FF;
+  --line:#E3E6EA; --line-soft:#EFF1F4; --muted:#7A8593;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:#F1F3F6; color:var(--caction-black);
+  font:400 14px/1.5 Inter, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.mi{font-family:"Material Icons Outlined"; font-style:normal; font-weight:400; line-height:1; letter-spacing:normal; text-transform:none; display:inline-block; white-space:nowrap; direction:ltr; -webkit-font-feature-settings:'liga'; -webkit-font-smoothing:antialiased}
+
+/* ---------- page shell ---------- */
+.page{max-width:1080px; margin:0 auto; padding:26px 20px 70px; display:grid; grid-template-columns:minmax(0,1fr) 396px; gap:34px; align-items:start}
+@media (max-width:900px){ .page{grid-template-columns:1fr} }
+
+.brief h1{font-size:24px; font-weight:700; letter-spacing:-.01em; margin:0 0 6px}
+.brief .eyebrow{font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--caction-blue-steel)}
+.brief p{color:#5C6672; margin:0 0 16px; max-width:56ch}
+.try{background:#fff; border:1px solid var(--line); border-radius:8px; padding:16px 18px}
+.try h2{font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--caction-blue-steel); margin:0 0 12px}
+.try ol{margin:0; padding-left:20px; display:grid; gap:9px; font-size:13.5px; color:#4A5460}
+.try b{color:var(--caction-black)}
+.try .foot{margin-top:16px; padding-top:14px; border-top:1px solid var(--line-soft); display:flex; align-items:center; gap:10px}
+.reset{
+  font:500 13px Inter,sans-serif; background:#fff; color:var(--caction-blue-normal);
+  border:1px solid var(--caction-blue-sky); border-radius:6px; padding:7px 13px; cursor:pointer;
+}
+.reset:hover{background:var(--caction-blue-light)}
+.note{font-size:12px; color:var(--muted)}
+
+/* ---------- sidebar ---------- */
+.sb{background:#fff; border:1px solid var(--line); border-radius:10px; overflow:visible; box-shadow:0 1px 2px rgba(36,61,92,.05), 0 12px 30px -18px rgba(36,61,92,.35)}
+.sb-hd{display:flex; align-items:flex-start; gap:8px; padding:13px 14px 11px}
+.sb-hd .lead{flex:1; min-width:0}
+.sb-hd .code{font-size:14px; font-weight:600; color:var(--caction-blue)}
+.sb-hd .who{font-size:11.5px; color:var(--muted); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.sb-hd .acts{display:flex; gap:9px; color:var(--caction-blue-steel); font-size:18px; padding-top:2px}
+.sb-tabs{display:flex; align-items:center; gap:8px; padding:0 14px 12px}
+.tab{font-size:12.5px; border:1px solid var(--line); border-radius:999px; padding:4px 12px; color:#5C6672; background:#fff}
+.tab .dot{display:inline-block; width:6px; height:6px; border-radius:99px; background:var(--caction-gray); margin-right:6px; vertical-align:1px}
+.tab.active{border-color:var(--caction-red); color:var(--caction-red); font-weight:500}
+.band{display:flex; gap:8px; align-items:center; margin:0 14px 12px; padding:9px 11px; background:var(--caction-yellow-light); border-radius:7px; font-size:12px; color:var(--caction-yellow)}
+.band .mi{font-size:15px}
+.band b{font-weight:600}
+.band span.desc{color:#8a7328}
+.sec{display:flex; align-items:center; gap:8px; padding:10px 14px; border-top:1px solid var(--line-soft); font-size:13px; color:var(--caction-blue)}
+.sec .mi.chev{font-size:17px; color:var(--caction-blue-steel)}
+.sec .cnt{background:var(--caction-blue-light); color:var(--caction-blue-normal); border-radius:999px; font-size:11px; font-weight:600; padding:1px 7px}
+.sec .add{margin-left:auto; color:var(--caction-blue-steel); font-size:18px}
+.dates{display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:13px 14px 6px; border-top:1px solid var(--line-soft)}
+.dtcard{border:1px solid var(--line); border-radius:8px; padding:9px 10px}
+.dtcard .k{display:flex; align-items:center; gap:5px; font-size:11px; color:var(--muted)}
+.dtcard .k .mi{font-size:14px}
+.dtcard .row2{display:flex; align-items:center; gap:8px; margin-top:7px}
+.dtcard .day{font-size:19px; font-weight:600; line-height:1; color:var(--caction-blue)}
+.dtcard .d{font-size:11.5px; color:#5C6672; line-height:1.35}
+.dtcard select{
+  margin-top:6px; width:100%; font:500 12px Inter,sans-serif; color:var(--caction-blue);
+  border:1px solid var(--line); border-radius:5px; padding:4px 6px; background:var(--caction-gray-lightest); cursor:pointer;
+}
+.dtcard select:focus-visible{outline:2px solid var(--caction-blue-sky); outline-offset:1px}
+.dur{padding:6px 14px 12px; font-size:11.5px; color:var(--muted)}
+
+.fields{padding:4px 14px 16px; border-top:1px solid var(--line-soft)}
+.f{display:grid; grid-template-columns:104px 1fr; gap:10px; padding:8px 0; font-size:12.5px; align-items:start}
+.f .k{color:var(--muted)}
+.f .v{color:#4A5460; min-width:0}
+.f.dim .v{color:#A8B0B9}
+.f .chev{color:var(--caction-blue-steel); font-size:16px}
+
+/* ---------- assign control ---------- */
+.assign{position:relative}
+.chip{
+  display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--line);
+  border-radius:999px; padding:3px 10px 3px 3px; font-size:12.5px; color:var(--caction-black); max-width:100%;
+}
+.chip .nm{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.chip .x{border:0; background:none; padding:0; cursor:pointer; color:var(--muted); font-size:15px; display:flex}
+.chip .x:hover{color:var(--caction-red)}
+.chip.clash{border-color:#EDC79C; background:var(--caction-orange-light)}
+.chip.clash .x{color:var(--caction-orange)}
+.chip-warn{display:flex; align-items:center; gap:5px; margin-top:6px; font-size:11.5px; color:var(--caction-orange)}
+.chip-warn .mi{font-size:14px}
+.av{
+  width:24px; height:24px; border-radius:999px; flex:0 0 auto; display:grid; place-items:center;
+  font-size:10.5px; font-weight:600; color:#fff; letter-spacing:.02em;
+}
+.av.lg{width:30px; height:30px; font-size:12px}
+
+.combo{
+  display:flex; align-items:center; gap:8px; width:100%; margin-top:8px;
+  border:1px solid var(--line); border-radius:7px; background:#fff; padding:7px 10px;
+  font:400 12.5px Inter,sans-serif; color:var(--muted); cursor:pointer; text-align:left;
+}
+.combo:hover{border-color:var(--caction-blue-sky)}
+.combo .mi{font-size:16px; color:var(--caction-blue-steel)}
+.combo.open{border-color:var(--caction-blue-normal); box-shadow:0 0 0 3px rgba(49,84,126,.12)}
+.combo input{flex:1; border:0; outline:0; font:400 12.5px Inter,sans-serif; color:var(--caction-black); background:none; min-width:0; padding:0}
+.combo input::placeholder{color:var(--muted)}
+
+.dd{
+  position:absolute; left:0; right:0; top:100%; margin-top:6px; z-index:40;
+  background:#fff; border:1px solid var(--line); border-radius:9px; overflow:hidden;
+  box-shadow:0 10px 34px -12px rgba(36,61,92,.4), 0 2px 6px rgba(36,61,92,.08);
+}
+.dd-ctx{display:flex; align-items:center; gap:6px; padding:8px 11px; background:var(--caction-blue-light); font-size:11.5px; color:var(--caction-blue-normal)}
+.dd-ctx .mi{font-size:14px}
+.dd-ctx .n{margin-left:auto; font-weight:600}
+.dd-scroll{max-height:274px; overflow-y:auto}
+.grp{display:flex; align-items:center; padding:9px 11px 5px; font-size:10.5px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); background:#fff}
+.grp .n{margin-left:auto; letter-spacing:0; text-transform:none; font-weight:400}
+.opt{display:flex; align-items:center; gap:10px; width:100%; padding:8px 11px; border:0; background:#fff; cursor:pointer; text-align:left; font:inherit}
+.opt:hover, .opt.hi{background:var(--caction-blue-light)}
+.opt .nm{font-size:13px; font-weight:500; color:var(--caction-black)}
+.opt .sub{font-size:11.5px; color:var(--muted); margin-top:1px; display:flex; align-items:center; gap:6px}
+.opt .ext{border:1px solid var(--caction-gray); background:var(--caction-gray-lightest); border-radius:4px; font-size:10px; padding:1px 5px; color:#5C6672}
+.opt .st{margin-left:auto; flex:0 0 auto}
+.opt .tick{color:var(--caction-green); font-size:18px}
+.badge{display:inline-block; font-size:10.5px; font-weight:600; border-radius:5px; padding:3px 7px; border:1px solid}
+.badge.free{color:var(--caction-green); background:var(--caction-green-light); border-color:#BEE3BE}
+.badge.clash{color:var(--caction-orange); background:var(--caction-orange-light); border-color:#F4CDBC}
+.badge.grp{color:var(--caction-blue-normal); background:var(--caction-blue-light); border-color:#C5DCEC}
+.opt.off{background:var(--caction-gray-lightest); cursor:not-allowed}
+.opt.off:hover{background:#EDEFF2}
+.opt.off .nm{color:#939CA6; font-weight:400}
+.opt.off .av{opacity:.45}
+.opt.off .why{font-size:11px; color:var(--caction-orange); margin-top:2px; font-variant-numeric:tabular-nums}
+.dd-empty{padding:20px 11px; text-align:center; font-size:12.5px; color:var(--muted)}
+.dd-ft{display:flex; align-items:center; gap:8px; padding:9px 11px; border-top:1px solid var(--line-soft); background:var(--caction-gray-lightest); font-size:11.5px; color:var(--muted)}
+.dd-ft .adv{margin-left:auto; border:0; background:none; font:500 12px Inter,sans-serif; color:var(--caction-blue-normal); cursor:pointer; padding:0}
+.dd-ft .adv:hover{text-decoration:underline}
+
+.tip{
+  position:absolute; z-index:60; width:246px; background:#fff; border:1px solid var(--line);
+  border-radius:8px; box-shadow:0 10px 28px -10px rgba(36,61,92,.42); padding:10px 12px; pointer-events:none;
+}
+.tip .t{font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--caction-orange)}
+.tip .l{display:flex; gap:8px; margin-top:6px; font-size:11.5px; color:#4A5460; font-variant-numeric:tabular-nums}
+.tip .l span:first-child{color:var(--muted); flex:0 0 64px}
+
+.toast{
+  position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(8px);
+  background:var(--caction-blue); color:#fff; font-size:13px; padding:10px 16px; border-radius:8px;
+  box-shadow:0 10px 28px -10px rgba(36,61,92,.6); opacity:0; transition:opacity .18s, transform .18s; pointer-events:none;
+}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+@media (prefers-reduced-motion:reduce){ .toast{transition:none} }
+:focus-visible{outline:2px solid var(--caction-blue-normal); outline-offset:1px}
+footer{grid-column:1/-1; margin-top:10px; font-size:11.5px; color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="brief">
+    <div class="eyebrow">Megalift · Job sidebar · prototype</div>
+    <h1>Assign User — inline dropdown</h1>
+    <p>The full-screen user-list popup is gone. Assigning a driver is now one field on the job: search, see who is actually free for this job's time window, pick. Conflicts show up while you choose, not in a second popup afterwards.</p>
+    <div class="try">
+      <h2>Try this</h2>
+      <ol>
+        <li>Click <b>Search driver or department</b> on the Assigned to row.</li>
+        <li>Drivers already booked over 5:00–6:00 PM are <b>greyed out</b> — hover one to see which job is blocking.</li>
+        <li>Type a name (try <b>“ah”</b>) to filter. Unavailable people stay in the list so you know they exist.</li>
+        <li>Pick anyone marked <b>Free</b>. It replaces the current assignee — one driver per job.</li>
+        <li>Change the <b>End date time</b> to 07:00 PM. Availability re-checks, and if your assignee now clashes the chip turns orange.</li>
+      </ol>
+      <div class="foot">
+        <button class="reset" id="reset" type="button">Reset demo</button>
+        <span class="note">Sample data — names and job codes are illustrative.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sb">
+    <div class="sb-hd">
+      <div class="lead">
+        <div class="code">J00023: Unload</div>
+        <div class="who">Apex Industrial Solutions Sdn Bhd · Nur Farah Hana</div>
+      </div>
+      <div class="acts"><span class="mi">notifications_none</span><span class="mi">chat_bubble_outline</span></div>
+    </div>
+
+    <div class="sb-tabs">
+      <span class="tab"><span class="dot"></span>Not Started</span>
+      <span class="tab">Details</span>
+      <span class="tab active">Comments</span>
+    </div>
+
+    <div class="band">
+      <span class="mi">receipt_long</span>
+      <b>Order — OR00011</b>
+      <span class="desc">M/Trans Siemens — Gen Rotor to Prai P/s</span>
+    </div>
+
+    <div class="sec"><span class="mi chev">expand_more</span>Truck <span class="cnt">1</span><span class="mi add">add</span></div>
+    <div class="sec"><span class="mi chev">expand_more</span>Digital Form<span class="mi add">add</span></div>
+
+    <div class="dates">
+      <div class="dtcard">
+        <div class="k"><span class="mi">event</span>Start date time</div>
+        <div class="row2"><span class="day">02</span><span class="d">Wed<br>02 Sep 2026</span></div>
+        <select id="start" aria-label="Start time">
+          <option value="900">09:00 AM</option>
+          <option value="960">10:00 AM</option>
+          <option value="1020" selected>05:00 PM</option>
+          <option value="1080">06:00 PM</option>
+        </select>
+      </div>
+      <div class="dtcard">
+        <div class="k"><span class="mi">event_available</span>End date time</div>
+        <div class="row2"><span class="day">02</span><span class="d">Wed<br>02 Sep 2026</span></div>
+        <select id="end" aria-label="End time">
+          <option value="1080" selected>06:00 PM</option>
+          <option value="1140">07:00 PM</option>
+          <option value="1200">08:00 PM</option>
+          <option value="1260">09:00 PM</option>
+        </select>
+      </div>
+    </div>
+    <div class="dur" id="dur">Duration : 1 hour</div>
+
+    <div class="fields">
+      <div class="f"><span class="k">Automation</span><span class="v">0</span></div>
+
+      <div class="f">
+        <span class="k" id="assignLabel">Assigned to [1]</span>
+        <span class="v assign" id="assign"></span>
+      </div>
+
+      <div class="f"><span class="k">Viewer list [1]</span><span class="v"><span class="mi chev">chevron_right</span></span></div>
+      <div class="f"><span class="k">Job Description</span><span class="v">Unload at Port 400t crane</span></div>
+      <div class="f dim"><span class="k">Attachment</span><span class="v">:  -</span></div>
+      <div class="f dim"><span class="k">Not In Use 1</span><span class="v">:  -</span></div>
+      <div class="f dim"><span class="k">Not In Use 2</span><span class="v">:  -</span></div>
+      <div class="f dim"><span class="k">Not In Use 3</span><span class="v">:  -</span></div>
+      <div class="f"><span class="k">Related To</span><span class="v"><span class="mi chev">chevron_right</span></span></div>
+      <div class="f"><span class="k">Job Information</span><span class="v"><span class="mi chev">chevron_right</span></span></div>
+    </div>
+  </div>
+
+  <footer>Prototype for client review — behaviour and layout only, not final visual design.</footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ---------------- sample data ---------------- */
+/* Existing bookings on 02 Sep 2026, minutes from midnight. */
+const PEOPLE = [
+  { id:1,  name:'Melanie Tan',     role:'Admin',           color:'#8A6D3B', jobs:[] },
+  { id:2,  name:'Suresh Kumar',    role:'Staff',           color:'#3B6D8A', jobs:[{code:'J00019', title:'Transport 12 axle', cust:'ProBuild Construction Sdn Bhd', s:975, e:1035}] },
+  { id:3,  name:'Ahmad Faizal',    role:'Staff',           color:'#6D3B8A', jobs:[] },
+  { id:4,  name:'Ahmad Hafiz',     role:'Staff',           color:'#3B8A6D', jobs:[{code:'J00017', title:'Site preparation', cust:'Apex Industrial Solutions Sdn Bhd', s:900, e:1260}] },
+  { id:5,  name:'Ravi Chandran',   role:'Sub Admin',       color:'#8A3B52', jobs:[{code:'J00021', title:'Transport — Low Loader', cust:'Prima Engineering Works Sdn', s:1050, e:1170}] },
+  { id:6,  name:'Lim Wei Jian',    role:'Staff',           color:'#5A5F8A', jobs:[] },
+  { id:7,  name:'Gopal Krishnan',  role:'Staff',           color:'#7A6A2E', jobs:[{code:'J00025', title:'Unload — 400t crane', cust:'Megalift Yard', s:1095, e:1215}] },
+  { id:8,  name:'Siti Aminah',     role:'Basic',           color:'#2E6A7A', jobs:[] },
+  { id:9,  name:'Nur Farah Hana',  role:'Associate User',  color:'#8A5A3B', external:true, jobs:[] },
+  { id:10, name:'Tan Chee Meng',   role:'Staff',           color:'#4A7A2E', jobs:[] },
+  { id:11, name:'Wong Kar Fai',    role:'Sub Admin',       color:'#6A2E7A', jobs:[{code:'J00013', title:'Vessel Bridge lift', cust:'Prima Engineering Works Sdn', s:930, e:1035}] },
+  { id:12, name:'Mohd Hafizuddin', role:'Staff',           color:'#2E4A7A', jobs:[] },
+];
+const DEPTS = [
+  { id:101, name:'Operations — Port', role:'Department', members:8, color:'#566C80' },
+  { id:102, name:'Crane Team A',      role:'Department', members:5, color:'#566C80' },
+];
+
+const state = { assigned:1, open:false, q:'', hi:-1 };
+
+/* ---------------- helpers ---------------- */
+const $ = (s) => document.querySelector(s);
+const startEl = $('#start'), endEl = $('#end');
+const win = () => ({ s:+startEl.value, e:+endEl.value });
+
+const fmt = (m) => {
+  const h24 = Math.floor(m/60), mm = String(m%60).padStart(2,'0');
+  const ap = h24 >= 12 ? 'PM' : 'AM';
+  const h = h24 % 12 === 0 ? 12 : h24 % 12;
+  return `${String(h).padStart(2,'0')}:${mm} ${ap}`;
+};
+const initials = (n) => n.split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
+const clashOf = (p) => {
+  const w = win();
+  return (p.jobs || []).find(j => j.s < w.e && j.e > w.s) || null;
+};
+const esc = (s) => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+let toastTimer;
+const toast = (msg) => {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+};
+
+/* ---------------- rendering ---------------- */
+function matches() {
+  const q = state.q.trim().toLowerCase();
+  const people = PEOPLE.filter(p => !q || p.name.toLowerCase().includes(q) || p.role.toLowerCase().includes(q));
+  const depts  = DEPTS.filter(d => !q || d.name.toLowerCase().includes(q));
+  return { people, depts, all:[...people, ...depts] };
+}
+
+function optionHTML(p, idx, isDept) {
+  const clash = isDept ? null : clashOf(p);
+  const picked = state.assigned === p.id;
+  const sub = isDept
+    ? `${p.members} members`
+    : `${esc(p.role)}${p.external ? ' <span class="ext">External</span>' : ''}`;
+  const st = isDept
+    ? '<span class="badge grp">Group</span>'
+    : clash ? '<span class="badge clash">Clash</span>'
+            : picked ? '<span class="mi tick">check_circle</span>'
+                     : '<span class="badge free">Free</span>';
+  return `
+    <button type="button" role="option" aria-selected="${picked}" aria-disabled="${!!clash}"
+      class="opt${clash ? ' off' : ''}${state.hi === idx ? ' hi' : ''}"
+      data-idx="${idx}" data-id="${p.id}"${clash ? ` data-clash="${esc(JSON.stringify(clash))}"` : ''}>
+      <span class="av" style="background:${p.color}">${initials(p.name)}</span>
+      <span style="min-width:0">
+        <span class="nm">${esc(p.name)}</span>
+        ${clash
+          ? `<div class="why">${esc(clash.code)} ${esc(clash.title)} · ${fmt(clash.s)}–${fmt(clash.e)}</div>`
+          : `<div class="sub">${sub}</div>`}
+      </span>
+      <span class="st">${st}</span>
+    </button>`;
+}
+
+function render() {
+  const w = win();
+  const person = PEOPLE.find(p => p.id === state.assigned) || DEPTS.find(d => d.id === state.assigned);
+  const clash = person && !person.members ? clashOf(person) : null;
+
+  $('#assignLabel').textContent = `Assigned to [${person ? 1 : 0}]`;
+
+  const chip = person ? `
+    <span class="chip${clash ? ' clash' : ''}">
+      <span class="av" style="background:${person.color}">${initials(person.name)}</span>
+      <span class="nm">${esc(person.name)}</span>
+      <button class="x" type="button" id="unassign" aria-label="Remove ${esc(person.name)}"><span class="mi">close</span></button>
+    </span>
+    ${clash ? `<div class="chip-warn"><span class="mi">warning_amber</span>Now clashes with ${esc(clash.code)} · ${fmt(clash.s)}–${fmt(clash.e)}</div>` : ''}
+  ` : `<span style="color:#A8B0B9; font-size:12.5px">No user assigned</span>`;
+
+  let dd = '';
+  if (state.open) {
+    const { people, depts, all } = matches();
+    const free = people.filter(p => !clashOf(p)).length;
+    const busy = people.length - free;
+    let list = '';
+    if (!all.length) {
+      list = `<div class="dd-empty">No user or department matches “${esc(state.q)}”.</div>`;
+    } else {
+      if (people.length) {
+        list += `<div class="grp">Users<span class="n">${free} free${busy ? ` · ${busy} clash` : ''}</span></div>`;
+        list += people.map((p, i) => optionHTML(p, i, false)).join('');
+      }
+      if (depts.length) {
+        list += `<div class="grp">Departments<span class="n">${depts.length}</span></div>`;
+        list += depts.map((d, i) => optionHTML(d, people.length + i, true)).join('');
+      }
+    }
+    dd = `
+      <div class="dd" id="dd" role="listbox" aria-label="Assign user">
+        <div class="dd-ctx"><span class="mi">schedule</span>Availability for Wed 02 Sep · ${fmt(w.s)}–${fmt(w.e)}<span class="n">${people.length} shown</span></div>
+        <div class="dd-scroll">${list}</div>
+        <div class="dd-ft">One user per job — picking replaces the current one
+          <button class="adv" type="button" id="adv">Advanced…</button>
+        </div>
+      </div>`;
+  }
+
+  const combo = state.open
+    ? `<div class="combo open"><span class="mi">search</span><input id="q" placeholder="Search driver or department" value="${esc(state.q)}" autocomplete="off"></div>`
+    : `<button class="combo" type="button" id="openBtn"><span class="mi">search</span>Search driver or department<span class="mi" style="margin-left:auto">expand_more</span></button>`;
+
+  $('#assign').innerHTML = chip + combo + dd;
+
+  if (state.open) {
+    const q = $('#q');
+    q.focus();
+    q.setSelectionRange(q.value.length, q.value.length);
+  }
+
+  const hrs = (w.e - w.s) / 60;
+  $('#dur').textContent = w.e > w.s
+    ? `Duration : ${hrs === 1 ? '1 hour' : hrs + ' hours'}`
+    : 'Duration : —';
+}
+
+/* ---------------- interaction ---------------- */
+function pick(id) {
+  const p = PEOPLE.find(x => x.id === id) || DEPTS.find(x => x.id === id);
+  if (!p) return;
+  if (!p.members && clashOf(p)) return;
+  const replaced = PEOPLE.find(x => x.id === state.assigned) || DEPTS.find(x => x.id === state.assigned);
+  state.assigned = id;
+  state.open = false;
+  state.q = '';
+  state.hi = -1;
+  render();
+  toast(replaced && replaced.id !== id ? `${p.name} assigned — replaced ${replaced.name}` : `${p.name} assigned`);
+}
+
+$('#assign').addEventListener('click', (ev) => {
+  if (ev.target.closest('#openBtn')) { state.open = true; state.hi = -1; render(); return; }
+  if (ev.target.closest('#unassign')) { state.assigned = null; render(); toast('User removed'); return; }
+  if (ev.target.closest('#adv')) { toast('Opens the existing user-list popup — departments, viewers, permissions'); return; }
+  const opt = ev.target.closest('.opt');
+  if (opt) {
+    if (opt.classList.contains('off')) { toast('Unavailable for this time — already on another job'); return; }
+    pick(+opt.dataset.id);
+  }
+});
+
+$('#assign').addEventListener('input', (ev) => {
+  if (ev.target.id !== 'q') return;
+  state.q = ev.target.value;
+  state.hi = -1;
+  render();
+});
+
+$('#assign').addEventListener('keydown', (ev) => {
+  if (!state.open) return;
+  const all = matches().all;
+  if (ev.key === 'Escape') { state.open = false; state.q = ''; render(); }
+  else if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+    ev.preventDefault();
+    if (!all.length) return;
+    const step = ev.key === 'ArrowDown' ? 1 : -1;
+    state.hi = (state.hi + step + all.length) % all.length;
+    render();
+    const el = document.querySelector(`.opt[data-idx="${state.hi}"]`);
+    if (el) el.scrollIntoView({ block:'nearest' });
+  } else if (ev.key === 'Enter') {
+    ev.preventDefault();
+    const target = all[state.hi];
+    if (target) pick(target.id);
+  }
+});
+
+/* hover tooltip on a blocked row */
+let tip;
+$('#assign').addEventListener('mouseover', (ev) => {
+  const opt = ev.target.closest('.opt.off');
+  if (!opt || !opt.dataset.clash) return;
+  const j = JSON.parse(opt.dataset.clash);
+  const w = win();
+  const overlap = Math.min(j.e, w.e) - Math.max(j.s, w.s);
+  tip = document.createElement('div');
+  tip.className = 'tip';
+  tip.innerHTML = `
+    <div class="t">Already assigned</div>
+    <div class="l"><span>Job</span><span>${esc(j.code)} · ${esc(j.title)}</span></div>
+    <div class="l"><span>Customer</span><span>${esc(j.cust)}</span></div>
+    <div class="l"><span>When</span><span>02 Sep ${fmt(j.s)} – ${fmt(j.e)}</span></div>
+    <div class="l"><span>Overlap</span><span>${overlap} min with this job</span></div>`;
+  document.body.appendChild(tip);
+  const r = opt.getBoundingClientRect();
+  const top = Math.min(r.top + window.scrollY, window.scrollY + innerHeight - 150);
+  tip.style.top = top + 'px';
+  tip.style.left = Math.max(10, r.left + window.scrollX - 256) + 'px';
+});
+$('#assign').addEventListener('mouseout', (ev) => {
+  if (!ev.target.closest('.opt.off')) return;
+  if (tip) { tip.remove(); tip = null; }
+});
+
+document.addEventListener('click', (ev) => {
+  if (state.open && !ev.target.closest('#assign')) { state.open = false; state.q = ''; render(); }
+});
+
+[startEl, endEl].forEach(el => el.addEventListener('change', () => {
+  if (+endEl.value <= +startEl.value) {
+    endEl.value = String(+startEl.value + 60);
+  }
+  render();
+  const person = PEOPLE.find(p => p.id === state.assigned);
+  if (person && clashOf(person)) toast(`${person.name} now clashes with another job`);
+  else toast('Availability rechecked for the new time');
+}));
+
+$('#reset').addEventListener('click', () => {
+  state.assigned = 1; state.open = false; state.q = ''; state.hi = -1;
+  startEl.value = '1020'; endEl.value = '1080';
+  render();
+  toast('Demo reset');
+});
+
+render();
+</script>
+</body>
+</html>
