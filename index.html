@@ -270,7 +270,7 @@ const fmtRange = (a, b) => {
   const A = fmt(a), B = fmt(b);
   return A.slice(-2) === B.slice(-2) ? `${A.slice(0,5)}–${B}` : `${A}–${B}`;
 };
-const initials = (n) > n.split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
+const initials = (n) => n.split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
 const clashOf = (p) => {
   const w = win();
   return (p.jobs || []).find(j => j.s < w.e && j.e > w.s) || null;
