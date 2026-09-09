@@ -354,8 +354,8 @@ function render() {
   }
 
   const combo = state.open
-    ? `<div class="combo open"><span class="mi">search</span><input id="q" placeholder="Search driver or department" value="${esc(state.q)}" autocomplete="off"></div>`
-    : `<button class="combo" type="button" id="openBtn"><span class="mi">search</span>Search driver or department<span class="mi" style="margin-left:auto">expand_more</span></button>`;
+    ? `<div class="combo open"><span class="mi">search</span><input id="q" placeholder="Assign User" value="${esc(state.q)}" autocomplete="off"></div>`
+    : `<button class="combo" type="button" id="openBtn"><span class="mi">group_add</span>Assign User<span class="mi" style="margin-left:auto">expand_more</span></button>`;
 
   $('#assign').innerHTML = chip + combo + dd;
 
