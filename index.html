@@ -113,11 +113,11 @@ body{
 .opt .sub{font-size:11.5px; color:var(--muted); margin-top:1px; display:flex; align-items:center; gap:6px}
 .opt .ext{border:1px solid var(--caction-gray); background:var(--caction-gray-lightest); border-radius:4px; font-size:10px; padding:1px 5px; color:#5C6672}
 .opt .st{margin-left:auto; flex:0 0 auto}
-.opt .tick{color:var(--caction-green); font-size:18px}
 .badge{display:inline-block; font-size:10.5px; font-weight:600; border-radius:5px; padding:3px 7px; border:1px solid}
 .badge.free{color:var(--caction-green); background:var(--caction-green-light); border-color:#BEE3BE}
 .badge.clash{color:var(--caction-orange); background:var(--caction-orange-light); border-color:#F4CDBC}
 .badge.grp{color:var(--caction-blue-normal); background:var(--caction-blue-light); border-color:#C5DCEC}
+.badge.current{color:var(--caction-blue-normal); background:var(--caction-blue-light); border-color:#C5DCEC}
 .opt.off{background:var(--caction-gray-lightest); cursor:not-allowed}
 .opt.off:hover{background:#EDEFF2}
 .opt.off .nm{color:#939CA6; font-weight:400}
@@ -296,7 +296,7 @@ function optionHTML(p, idx, isDept) {
   const st = isDept
     ? '<span class="badge grp">Group</span>'
     : clash ? '<span class="badge clash">Clash</span>'
-            : picked ? '<span class="mi tick">check_circle</span>'
+            : picked ? '<span class="badge current">Assigned</span>'
                      : '<span class="badge free">Free</span>';
   return `
     <button type="button" role="option" aria-selected="${picked}" aria-disabled="${!!clash}"
