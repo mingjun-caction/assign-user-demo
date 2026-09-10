@@ -104,7 +104,16 @@ body{
 }
 .combo .mi{font-size:16px; color:var(--caction-blue-steel)}
 .combo.open{border-color:var(--caction-blue-normal); box-shadow:0 0 0 3px rgba(49,84,126,.12)}
-.combo input{flex:1; border:0; outline:0; font:400 12.5px Inter,sans-serif; color:var(--caction-black); background:none; min-width:0; padding:0}
+.combo input{
+  flex:1; border:0; outline:0; background:none; min-width:0; padding:0;
+  color:var(--caction-black);
+  /* iOS Safari auto-zooms when focusing an input under 16px, so render at 16px
+     and scale down visually to keep the compact 12.5px look. */
+  font:400 16px Inter,sans-serif;
+  transform:scale(.78);
+  transform-origin:left center;
+  width:128%;
+}
 .combo input::placeholder{color:var(--muted)}
 
 .dd{
